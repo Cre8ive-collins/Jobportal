@@ -47,7 +47,7 @@ jobs:
 
             docker run -d \
               --name jobportal-api \
-              --env-file /opt/apps/Jobportal/.env \
+              --env-file /opt/env/jobportal.env \
               -p 127.0.0.1:5005:5005 \
               --restart unless-stopped \
               ghcr.io/cre8ive-collins/jobportal-api:latest
