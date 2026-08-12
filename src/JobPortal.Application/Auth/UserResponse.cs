@@ -1,20 +1,18 @@
-using JobPortal.Domain.Enums;
+using System.Text.Json.Serialization;
 
-namespace JobPortal.Domain.Entities;
+namespace JobPortal.Application.Auth;
 
-public class User
+public class UserResponse
 {
     public Guid Id { get; set; }
 
+    [JsonPropertyName("fullname")]
     public string FullName { get; set; } = string.Empty;
 
     public string Email { get; set; } = string.Empty;
 
-    public string PasswordHash { get; set; } = string.Empty;
-
+    [JsonPropertyName("account_type")]
     public string AccountType { get; set; } = string.Empty;
-
-    public UserStatus Status { get; set; } = UserStatus.Active;
 
     public DateTime CreatedAtUtc { get; set; }
 }

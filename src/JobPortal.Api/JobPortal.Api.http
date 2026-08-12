@@ -1,6 +1,21 @@
 @JobPortal.Api_HostAddress = http://localhost:5185
 
-GET {{JobPortal.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{JobPortal.Api_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "Password123!",
+  "fullname": "Example User",
+  "account_type": "User"
+}
 
 ###
+
+POST {{JobPortal.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "Password123!"
+}

@@ -10,7 +10,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Student> Students => Set<Student>();
     public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -18,15 +17,23 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>()
-            .Property(user => user.Role)
-            .HasConversion<string>();
+            .HasIndex(user => user.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .Property(user => user.Email)
+            .HasMaxLength(320);
+
+        modelBuilder.Entity<User>()
+            .Property(user => user.FullName)
+            .HasMaxLength(200);
+
+        modelBuilder.Entity<User>()
+            .Property(user => user.AccountType)
+            .HasMaxLength(50);
 
         modelBuilder.Entity<User>()
             .Property(user => user.Status)
-            .HasConversion<string>();
-
-        modelBuilder.Entity<Student>()
-            .Property(student => student.Status)
             .HasConversion<string>();
     }
 }
