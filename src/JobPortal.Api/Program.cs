@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,7 +55,26 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddOpenApi();
+var openApiServerUrl = builder.Configuration["OpenApi:ServerUrl"]
+    ?? throw new InvalidOperationException(
+        "OpenApi:ServerUrl was not configured."
+    );
+
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, _, _) =>
+    {
+        document.Servers =
+        [
+            new OpenApiServer
+            {
+                Url = openApiServerUrl
+            }
+        ];
+
+        return Task.CompletedTask;
+    });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
