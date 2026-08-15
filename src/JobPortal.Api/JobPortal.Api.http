@@ -7,7 +7,7 @@ Content-Type: application/json
   "email": "user@example.com",
   "password": "Password123!",
   "fullname": "Example User",
-  "account_type": "User"
+  "account_type": "JobSeeker"
 }
 
 ###

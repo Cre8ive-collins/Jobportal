@@ -12,7 +12,7 @@ public class User
 
     public string PasswordHash { get; set; } = string.Empty;
 
-    public string AccountType { get; set; } = string.Empty;
+    public AccountType AccountType { get; set; }
 
     public UserStatus Status { get; set; } = UserStatus.Active;
 

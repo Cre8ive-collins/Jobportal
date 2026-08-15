@@ -30,6 +30,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .Property(user => user.AccountType)
+            .HasConversion<string>()
             .HasMaxLength(50);
 
         modelBuilder.Entity<User>()

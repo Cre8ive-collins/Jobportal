@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using JobPortal.Domain.Enums;
 
 namespace JobPortal.Application.Auth;
 
@@ -12,7 +13,7 @@ public class UserResponse
     public string Email { get; set; } = string.Empty;
 
     [JsonPropertyName("account_type")]
-    public string AccountType { get; set; } = string.Empty;
+    public AccountType AccountType { get; set; }
 
     public DateTime CreatedAtUtc { get; set; }
 }

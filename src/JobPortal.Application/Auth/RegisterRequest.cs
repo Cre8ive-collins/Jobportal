@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using JobPortal.Domain.Enums;
 
 namespace JobPortal.Application.Auth;
 
@@ -21,7 +22,7 @@ public class RegisterRequest
     public string FullName { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(50)]
+    [EnumDataType(typeof(AccountType))]
     [JsonPropertyName("account_type")]
-    public string AccountType { get; set; } = string.Empty;
+    public AccountType? AccountType { get; set; }
 }

@@ -40,7 +40,7 @@ public class AuthService
             FullName = request.FullName.Trim(),
             Email = email,
             PasswordHash = _passwordService.HashPassword(request.Password),
-            AccountType = request.AccountType.Trim(),
+            AccountType = request.AccountType!.Value,
             Status = UserStatus.Active,
             CreatedAtUtc = DateTime.UtcNow
         };
