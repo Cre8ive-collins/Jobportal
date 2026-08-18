@@ -17,4 +17,6 @@ public class User
     public UserStatus Status { get; set; } = UserStatus.Active;
 
     public DateTime CreatedAtUtc { get; set; }
+
+    public ICollection<Job> Jobs { get; set; } = [];
 }

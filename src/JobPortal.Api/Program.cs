@@ -1,7 +1,9 @@
 using System.Text;
 using JobPortal.Api.Errors;
 using JobPortal.Application.Auth;
+using JobPortal.Application.Categories;
 using JobPortal.Application.Common.Interfaces;
+using JobPortal.Application.Jobs;
 using JobPortal.Application.Users;
 using JobPortal.Infrastructure.Persistence;
 using JobPortal.Infrastructure.Repositories;
@@ -114,6 +116,7 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.MapInboundClaims = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -156,8 +159,21 @@ builder.Services
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("EmployerOnly", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("account_type", "Employer");
+    });
+});
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<JobService>();
+builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
