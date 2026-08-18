@@ -1,11 +1,9 @@
 using JobPortal.Application.Categories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobPortal.Api.Controllers;
 
 [ApiController]
-[Authorize(Policy = "EmployerOnly")]
 [Route("api/utils")]
 public class UtilsController : ControllerBase
 {

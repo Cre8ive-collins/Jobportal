@@ -24,6 +24,28 @@ public class JobService
         return jobs.Select(MapToResponse).ToList();
     }
 
+    public async Task<PaginatedJobsResponse> SearchAsync(
+        JobSearchRequest request
+    )
+    {
+        request.Search = string.IsNullOrWhiteSpace(request.Search)
+            ? null
+            : request.Search.Trim();
+
+        var result = await _jobRepository.SearchPublishedAsync(request);
+
+        return new PaginatedJobsResponse
+        {
+            Items = result.Items.Select(MapToResponse).ToList(),
+            Page = request.Page,
+            PageSize = request.PageSize,
+            TotalItems = result.TotalCount,
+            TotalPages = (int)Math.Ceiling(
+                result.TotalCount / (double)request.PageSize
+            )
+        };
+    }
+
     public async Task<JobResponse> GetByIdAsync(Guid id, Guid employerId)
     {
         var job = await GetOwnedJobAsync(id, employerId);

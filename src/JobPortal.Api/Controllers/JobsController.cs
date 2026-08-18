@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JobPortal.Api.Controllers;
 
 [ApiController]
-[Authorize(Policy = "EmployerOnly")]
+[Authorize]
 [Route("api/jobs")]
 public class JobsController : ControllerBase
 {
@@ -18,7 +18,20 @@ public class JobsController : ControllerBase
         _jobService = jobService;
     }
 
+    [HttpGet("search")]
+    [ProducesResponseType(
+        typeof(PaginatedJobsResponse),
+        StatusCodes.Status200OK
+    )]
+    public async Task<ActionResult<PaginatedJobsResponse>> Search(
+        [FromQuery] JobSearchRequest request
+    )
+    {
+        return Ok(await _jobService.SearchAsync(request));
+    }
+
     [HttpGet]
+    [Authorize(Policy = "EmployerOnly")]
     [ProducesResponseType(typeof(List<JobResponse>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<JobResponse>>> GetAll()
     {
@@ -26,6 +39,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = "EmployerOnly")]
     [ProducesResponseType(typeof(JobResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<JobResponse>> GetById(Guid id)
@@ -34,6 +48,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "EmployerOnly")]
     [ProducesResponseType(typeof(JobResponse), StatusCodes.Status201Created)]
     public async Task<ActionResult<JobResponse>> Create(CreateJobRequest request)
     {
@@ -47,6 +62,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Policy = "EmployerOnly")]
     [ProducesResponseType(typeof(JobResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<JobResponse>> Update(
@@ -60,6 +76,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Policy = "EmployerOnly")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)

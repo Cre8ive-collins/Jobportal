@@ -6,5 +6,6 @@ namespace JobPortal.Domain.Enums;
 public enum JobStatus
 {
     Draft,
-    Published
+    Published,
+    Closed
 }

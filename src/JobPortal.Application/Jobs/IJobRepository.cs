@@ -6,6 +6,10 @@ public interface IJobRepository
 {
     Task<List<Job>> GetAllByEmployerAsync(Guid employerId);
 
+    Task<(List<Job> Items, int TotalCount)> SearchPublishedAsync(
+        JobSearchRequest request
+    );
+
     Task<Job?> GetByIdAndEmployerAsync(Guid id, Guid employerId);
 
     Task AddAsync(Job job);
