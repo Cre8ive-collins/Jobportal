@@ -21,4 +21,6 @@ public class User
     public ICollection<Job> Jobs { get; set; } = [];
 
     public ICollection<JobApplication> Applications { get; set; } = [];
+
+    public JobSeekerProfile? JobSeekerProfile { get; set; }
 }

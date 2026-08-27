@@ -18,6 +18,8 @@ public class AppDbContext : DbContext
 
     public DbSet<JobApplication> Applications => Set<JobApplication>();
 
+    public DbSet<JobSeekerProfile> JobSeekerProfiles => Set<JobSeekerProfile>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -119,6 +121,35 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<JobApplication>()
             .HasIndex(application => application.ApplicantId);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .HasKey(profile => profile.UserId);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .Property(profile => profile.Skills)
+            .HasMaxLength(2000);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .Property(profile => profile.Education)
+            .HasMaxLength(5000);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .Property(profile => profile.Experience)
+            .HasMaxLength(10000);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .Property(profile => profile.Headline)
+            .HasMaxLength(200);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .Property(profile => profile.CvUrl)
+            .HasMaxLength(2048);
+
+        modelBuilder.Entity<JobSeekerProfile>()
+            .HasOne(profile => profile.User)
+            .WithOne(user => user.JobSeekerProfile)
+            .HasForeignKey<JobSeekerProfile>(profile => profile.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Category>()
             .Property(category => category.Id)

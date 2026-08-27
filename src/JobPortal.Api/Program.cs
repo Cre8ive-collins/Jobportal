@@ -5,6 +5,7 @@ using JobPortal.Application.Auth;
 using JobPortal.Application.Categories;
 using JobPortal.Application.Common.Interfaces;
 using JobPortal.Application.Jobs;
+using JobPortal.Application.Profiles;
 using JobPortal.Application.Users;
 using JobPortal.Infrastructure.Persistence;
 using JobPortal.Infrastructure.Repositories;
@@ -179,10 +180,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddScoped<
+    IJobSeekerProfileRepository,
+    JobSeekerProfileRepository
+>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JobService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<ApplicationService>();
+builder.Services.AddScoped<JobSeekerProfileService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
