@@ -71,6 +71,16 @@ public class ApplicationService
         return applications.Select(MapToResponse).ToList();
     }
 
+    public async Task<List<ApplicationResponse>> GetAllByApplicantAsync(
+        Guid applicantId
+    )
+    {
+        var applications = await _applicationRepository
+            .GetAllByApplicantAsync(applicantId);
+
+        return applications.Select(MapToResponse).ToList();
+    }
+
     public async Task<ApplicationResponse> UpdateStatusAsync(
         Guid jobId,
         Guid applicantId,

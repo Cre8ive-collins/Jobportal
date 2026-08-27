@@ -12,6 +12,8 @@ public interface IApplicationRepository
 
     Task<List<JobApplication>> GetAllByEmployerAsync(Guid employerId);
 
+    Task<List<JobApplication>> GetAllByApplicantAsync(Guid applicantId);
+
     Task<JobApplication?> GetByIdAndEmployerAsync(
         Guid jobId,
         Guid applicantId,

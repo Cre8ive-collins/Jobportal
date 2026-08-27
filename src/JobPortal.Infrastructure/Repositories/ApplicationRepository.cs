@@ -67,6 +67,17 @@ public class ApplicationRepository : IApplicationRepository
             .ToListAsync();
     }
 
+    public Task<List<JobApplication>> GetAllByApplicantAsync(Guid applicantId)
+    {
+        return _dbContext.Applications
+            .AsNoTracking()
+            .Include(application => application.Job)
+            .Include(application => application.Applicant)
+            .Where(application => application.ApplicantId == applicantId)
+            .OrderByDescending(application => application.AppliedAtUtc)
+            .ToListAsync();
+    }
+
     public Task<JobApplication?> GetByIdAndEmployerAsync(
         Guid jobId,
         Guid applicantId,

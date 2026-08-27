@@ -60,6 +60,24 @@ public class ApplicationsController : ControllerBase
         );
     }
 
+    [HttpGet("my-applications")]
+    [Authorize(Policy = "JobSeekerOnly")]
+    [EndpointSummary("Get my applications")]
+    [EndpointDescription(
+        "Returns every application submitted by the authenticated job seeker, " +
+        "ordered by most recent application."
+    )]
+    [ProducesResponseType(
+        typeof(List<ApplicationResponse>),
+        StatusCodes.Status200OK
+    )]
+    public async Task<ActionResult<List<ApplicationResponse>>> GetMine()
+    {
+        return Ok(
+            await _applicationService.GetAllByApplicantAsync(GetUserId())
+        );
+    }
+
     [HttpPatch("{jobId:guid}/{applicantId:guid}/status")]
     [Authorize(Policy = "EmployerOnly")]
     [EndpointSummary("Update an application status")]
