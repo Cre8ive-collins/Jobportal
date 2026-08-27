@@ -12,6 +12,8 @@ public interface IJobRepository
 
     Task<Job?> GetByIdAndEmployerAsync(Guid id, Guid employerId);
 
+    Task<Job?> GetByIdAsync(Guid id);
+
     Task AddAsync(Job job);
 
     Task UpdateAsync(Job job);

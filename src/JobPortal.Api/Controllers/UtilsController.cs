@@ -15,6 +15,11 @@ public class UtilsController : ControllerBase
     }
 
     [HttpGet("categories")]
+    [EndpointSummary("Get job categories")]
+    [EndpointDescription(
+        "Returns the available job categories for job creation and search " +
+        "filters."
+    )]
     [ProducesResponseType(
         typeof(List<CategoryResponse>),
         StatusCodes.Status200OK

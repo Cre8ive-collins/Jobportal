@@ -85,6 +85,13 @@ public class JobRepository : IJobRepository
             );
     }
 
+    public Task<Job?> GetByIdAsync(Guid id)
+    {
+        return _dbContext.Jobs
+            .AsNoTracking()
+            .FirstOrDefaultAsync(job => job.Id == id);
+    }
+
     public async Task AddAsync(Job job)
     {
         _dbContext.Jobs.Add(job);

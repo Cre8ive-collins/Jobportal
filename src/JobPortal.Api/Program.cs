@@ -1,5 +1,6 @@
 using System.Text;
 using JobPortal.Api.Errors;
+using JobPortal.Application.Applications;
 using JobPortal.Application.Auth;
 using JobPortal.Application.Categories;
 using JobPortal.Application.Common.Interfaces;
@@ -166,14 +167,22 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser();
         policy.RequireClaim("account_type", "Employer");
     });
+
+    options.AddPolicy("JobSeekerOnly", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("account_type", "JobSeeker");
+    });
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JobService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ApplicationService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
@@ -208,6 +217,13 @@ if (!app.Environment.IsDevelopment())
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapGet(
+    "/",
+    () => Results.Content(
+        "<h1>Welcome to JobPortal</h1>",
+        "text/html"
+    )
+);
 app.MapControllers();
 
 app.Run();

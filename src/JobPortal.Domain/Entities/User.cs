@@ -19,4 +19,6 @@ public class User
     public DateTime CreatedAtUtc { get; set; }
 
     public ICollection<Job> Jobs { get; set; } = [];
+
+    public ICollection<JobApplication> Applications { get; set; } = [];
 }

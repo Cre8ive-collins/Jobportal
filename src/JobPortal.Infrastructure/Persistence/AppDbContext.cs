@@ -16,6 +16,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Category> Categories => Set<Category>();
 
+    public DbSet<JobApplication> Applications => Set<JobApplication>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -90,6 +92,33 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Job>()
             .HasIndex(job => new { job.EmployerId, job.CreatedAtUtc });
+
+        modelBuilder.Entity<JobApplication>()
+            .HasKey(application => new
+            {
+                application.JobId,
+                application.ApplicantId
+            });
+
+        modelBuilder.Entity<JobApplication>()
+            .Property(application => application.Status)
+            .HasConversion<string>()
+            .HasMaxLength(50);
+
+        modelBuilder.Entity<JobApplication>()
+            .HasOne(application => application.Job)
+            .WithMany(job => job.Applications)
+            .HasForeignKey(application => application.JobId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<JobApplication>()
+            .HasOne(application => application.Applicant)
+            .WithMany(user => user.Applications)
+            .HasForeignKey(application => application.ApplicantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<JobApplication>()
+            .HasIndex(application => application.ApplicantId);
 
         modelBuilder.Entity<Category>()
             .Property(category => category.Id)

@@ -19,6 +19,11 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet("search")]
+    [EndpointSummary("Search published jobs")]
+    [EndpointDescription(
+        "Returns a paginated list of published jobs. Results can be filtered " +
+        "by search text, category, employment type, and experience level."
+    )]
     [ProducesResponseType(
         typeof(PaginatedJobsResponse),
         StatusCodes.Status200OK
@@ -32,6 +37,11 @@ public class JobsController : ControllerBase
 
     [HttpGet]
     [Authorize(Policy = "EmployerOnly")]
+    [EndpointSummary("Get the employer's jobs")]
+    [EndpointDescription(
+        "Returns every job created by the authenticated employer, including " +
+        "draft, published, and closed jobs."
+    )]
     [ProducesResponseType(typeof(List<JobResponse>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<JobResponse>>> GetAll()
     {
@@ -40,6 +50,10 @@ public class JobsController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [Authorize(Policy = "EmployerOnly")]
+    [EndpointSummary("Get an employer job")]
+    [EndpointDescription(
+        "Returns one job when it belongs to the authenticated employer."
+    )]
     [ProducesResponseType(typeof(JobResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<JobResponse>> GetById(Guid id)
@@ -49,6 +63,11 @@ public class JobsController : ControllerBase
 
     [HttpPost]
     [Authorize(Policy = "EmployerOnly")]
+    [EndpointSummary("Create a job")]
+    [EndpointDescription(
+        "Creates a job owned by the authenticated employer using the supplied " +
+        "details, category, status, and application deadline."
+    )]
     [ProducesResponseType(typeof(JobResponse), StatusCodes.Status201Created)]
     public async Task<ActionResult<JobResponse>> Create(CreateJobRequest request)
     {
@@ -63,6 +82,11 @@ public class JobsController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [Authorize(Policy = "EmployerOnly")]
+    [EndpointSummary("Update a job")]
+    [EndpointDescription(
+        "Replaces the editable details of a job owned by the authenticated " +
+        "employer, including its publication status."
+    )]
     [ProducesResponseType(typeof(JobResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<JobResponse>> Update(
@@ -77,6 +101,10 @@ public class JobsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Policy = "EmployerOnly")]
+    [EndpointSummary("Delete a job")]
+    [EndpointDescription(
+        "Permanently deletes a job owned by the authenticated employer."
+    )]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
